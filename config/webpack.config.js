@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 'use strict';
 
 const fs = require('fs');
@@ -67,7 +68,7 @@ const useTailwind = fs.existsSync(
 const swSrc = paths.swSrc;
 
 // style files regexes
-const cssRegex = /\.css$/;
+const cssRegex = /\.css|less$/;
 const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
@@ -125,7 +126,7 @@ module.exports = function (webpackEnv) {
       },
       {
         loader: require.resolve('less-loader'),
-        options: lessOptions,
+       // options: lessOptions,
    },
       {
         // Options for PostCSS as we reference these options twice
@@ -445,7 +446,8 @@ module.exports = function (webpackEnv) {
             // Unlike the application JS, we only compile the standard ES features.
             {
               test: /\.(js|mjs)$/,
-              exclude: /@babel(?:\/|\\{1,2})runtime/,
+          // exclude: /@babel(?:\/|\\{1,2})runtime/,//修改前
+              exclude: [/@babel(?:\/|\\{1,2})runtime/,/\.(css|less)$/],//修改后
               loader: require.resolve('babel-loader'),
               options: {
                 babelrc: false,
